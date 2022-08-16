@@ -75,6 +75,7 @@ export default function Home() {
        account={account}
        networkError={networkError}
         >
+       <TabSelector account={account} walletConnected={walletConnected} />
       
       </Layout>
     </>
