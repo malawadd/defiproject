@@ -1,29 +1,31 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const hre = require("hardhat");
-
+const fs = require("fs");
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const Taamin = await hre.ethers.getContractFactory("Taamin");
+  const taamin = await Taamin.deploy();
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  await taamin.deployed();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  console.log("taamin deployed to:", taamin.address);
 
-  await lock.deployed();
+  fs.writeFileSync(
+    "././taamin.js", `
+    export const taamin = "${taamin.address}"`
+  )
 
-  console.log("Lock with 1 ETH deployed to:", lock.address);
 }
-
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+//npx hardhat verify CONTRACT_ADDR --network mumbai
+//npx hardhat verify 0xD24eD10c9b3313c853225D14f767b6dC53Be6b49 "0x1F98431c8aD98523631AE4a59f267346ea31F984" --network mumbai
+
+//npx hardhat run --network mumbai scripts/deploy.js
+
+//polygon scan : 0x4b48841d4b32C4650E4ABc117A03FE8B51f38F68
+
+//0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
