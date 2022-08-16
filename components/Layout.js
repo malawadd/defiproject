@@ -20,7 +20,6 @@ export const Layout = ({
             />
             <div className={s.content}>{children}</div>
             <Footer />
-            
         </div>
     )
 }

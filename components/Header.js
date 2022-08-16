@@ -1,4 +1,5 @@
 import s from "../styles/Header.module.scss"
+import { Button } from "./Button"
 import Image from "next/image"
 
 export const Header = ({ walletConnected, account, connectWallet }) => {
@@ -7,14 +8,26 @@ export const Header = ({ walletConnected, account, connectWallet }) => {
       <div className={s.container}>
         {/* <Image className={s.logo} src={Logo} height={90} width={81} /> */}
 
-        <button
+        <Button
           handleClick={connectWallet}
           className={s.button}
           buttonText="Connect Wallet"
-        ></button>
+        ></Button>
 
       </div>
-        
+    )
+    return (
+      <div className={s.container}>
+        {/* <Image className={s.logo} src={Logo} height={90} width={81} /> */}
+        <div className={s.headingItem}>
+          <p className={s.text}>
+            {
+              account.length !== 42 
+              ? account
+              : `${account.substring(0, 3)}...${account.substring(39, 46)}`}
+          </p>
+        </div>
+      </div>
     )
   
 }
