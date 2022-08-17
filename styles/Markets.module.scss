@@ -1,0 +1,127 @@
+@import "./colors";
+@import "./variables";
+
+.container {
+  width: $small;
+  margin: $space-large auto;
+  display: flex;
+  padding: $space-mega $space-large;
+  background-color: $dark;
+  border-radius: $x4;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tabHeader {
+  font-size: 28px;
+  margin: 0 0 $x2 0;
+}
+
+.dataContainer {
+  max-height: 380px;
+  overflow: scroll;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $x2;
+}
+
+.assetHead {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 75px;
+  margin: 0;
+}
+
+.assetData {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 75px;
+  margin: 0;
+}
+
+.priceLossHead {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 200px;
+  margin: 0;
+}
+
+.priceLossData {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 200px;
+  margin: 0;
+}
+
+.feeHead {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 90px;
+  margin: 0;
+}
+
+.feeData {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 90px;
+  margin: 0;
+}
+
+.validityDataHead {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 380px;
+  margin: 0;
+}
+
+.validityDataData {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 380px;
+  margin: 0;
+}
+
+.dataButtonContainer {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.dataButton {
+  background-color: transparent;
+  border: 1px solid $green;
+  width: 80px;
+  color: $green;
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 4px 0;
+
+  &:hover {
+    opacity: 0.7;
+    background-color: $green;
+    color: $dark;
+  }
+}
