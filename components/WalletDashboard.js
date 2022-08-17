@@ -52,6 +52,7 @@ export const WalletDashboard = ({ account }) => {
 
     const pools = poolsData?.poolsData.insuranceRequestEntities;
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const retrieveTokenData = (tokenAddress) => useRetrieveTokenData(tokenAddress);
 
     const reimburse = async (poolId) => {
@@ -98,6 +99,7 @@ export const WalletDashboard = ({ account }) => {
                  <div key={index}>
                      <div className={s.tableRow}>
                         <div className={s.dataAsset}>
+                            
                             <Image
                             src={retrieveTokenData(item.tokenAddress).logo}
                             width={30}
