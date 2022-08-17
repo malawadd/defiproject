@@ -1,0 +1,81 @@
+@import "./colors";
+@import "./variables";
+
+.container {
+  min-width: $small;
+  margin: $space-large auto;
+  display: flex;
+  padding: $space-mega;
+  background-color: $dark;
+  border-radius: $x4;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tabHeader {
+  font-size: 28px;
+  margin: 0 0 $x2 0;
+}
+
+.dataContainer {
+  max-height: 380px;
+  overflow: scroll;
+}
+
+.tableHead {
+  text-align: left;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 225px;
+  margin: 0;
+}
+
+.tableHeadAsset {
+  text-align: left;
+  padding: $x1 0;
+  font-size: 18px;
+  font-weight: 100;
+  width: 110px;
+  margin: 0;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+}
+
+.data {
+  text-align: center;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 200px;
+  margin: 0;
+}
+
+.dataAsset {
+  text-align: left;
+  padding: $x1 0;
+  font-size: 14px;
+  font-weight: 100;
+  width: 80px;
+  margin: 0;
+}
+
+.dataButton {
+  background-color: transparent;
+  border: 1px solid $green;
+  width: 95px;
+  color: $green;
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 4px 0;
+
+  &:hover {
+    opacity: 0.7;
+    background-color: $green;
+    color: $dark;
+  }
+}

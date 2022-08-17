@@ -1,2 +1,2 @@
 
-    export const taamin = "0x1000ce4BD3fdb281851f76aB76D79eCe2782c3D1"
+    export const taamin = "0x89086E8e5AE2fF9260F3ef469f31aFc1E36D0191"

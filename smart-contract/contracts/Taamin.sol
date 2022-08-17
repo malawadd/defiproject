@@ -13,17 +13,16 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 /// @notice You can use this contract for creating and requesting your own Tameen contracts.
 
 contract Taamin {
-    uint16 public id ;
+    uint16 public id;
     address tokenAddress;
     AggregatorV3Interface internal priceFeed;
     IERC20 internal taaminToken;
 
     mapping(uint16 => DataTypes.PoolData) public poolDataList;
-    mapping(uint16 => mapping(address => DataTypes.PoolLiquiditySupply)) public liquiditySupplyList;
-    mapping(uint16 => mapping(address => DataTypes.InsuranceRequest)) public insuranceRequests;
-
-
-
+    mapping(uint16 => mapping(address => DataTypes.PoolLiquiditySupply))
+        public liquiditySupplyList;
+    mapping(uint16 => mapping(address => DataTypes.InsuranceRequest))
+        public insuranceRequests;
 
     event PoolUpdated(
         uint16 poolId,
@@ -43,41 +42,45 @@ contract Taamin {
         uint256 fee
     );
 
-    modifier existPool(uint16 _id){
+    modifier existPool(uint16 _id) {
         if (_id > id) {
             revert Errors.PoolIdNotExist();
         }
         _;
-
     }
 
-    constructor(){
+    constructor() {
         id = 0;
     }
-
 
     /// @notice retrives the lates price from price feed
     /// @dev reccomended way to retrieve the price from the price feed acccording to Chainlink docs.
     /// @return token price with decimals based on price feed
 
-    function getLatestPrice() internal view returns (int256){
+    function getLatestPrice() internal view returns (int256) {
         (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
+            ,
+            /*uint80 roundID*/
+            int256 price,
+            ,
+            ,
+
+        ) = /*uint startedAt*/
+            /*uint timeStamp*/
             /*uint80 answeredInRound*/
-        ) = priceFeed.latestRoundData();
+            priceFeed.latestRoundData();
         return price;
-        
     }
 
     /// @notice Calculate the amount of fees to be paid by user to request an Tameen
     /// @param _id the id of the pool that users wants to insure
     /// @param _amount the amount of token that the user wants to insure
     /// @return the amount of fee to be paid by user to request an Tameen in 10**18
-    function getUserFee(uint16 _id, uint256 _amount) public view returns (uint256){
-
+    function getUserFee(uint16 _id, uint256 _amount)
+        public
+        view
+        returns (uint256)
+    {
         uint256 totalLiquidity = poolDataList[_id].totalLiquidity;
         uint16 fee = poolDataList[_id].fee;
         uint256 f = (totalLiquidity * uint256(fee)) / 100;
@@ -87,13 +90,17 @@ contract Taamin {
     /// @param _id the id of the pool to calculate reimbursement
     /// @param _amount the amount of token to calculate reimbursement
     /// @return the amount of to be paid to user when Tameen criteria are met in 10**18
-    function getReimbursement(uint16 _id, uint256 _amount) public view returns (uint256){
+    function getReimbursement(uint16 _id, uint256 _amount)
+        public
+        view
+        returns (uint256)
+    {
         uint256 priceLossCover = poolDataList[_id].priceLossCover;
         uint256 priceDiff = _amount - ((_amount / 100) * priceLossCover);
-        uint256 reimbursementAmount = ((_amount - priceDiff)  * _amount) / priceDiff;
+        uint256 reimbursementAmount = ((_amount - priceDiff) * _amount) /
+            priceDiff;
         return reimbursementAmount;
     }
-
 
     /// @notice generates a new Tameen pool with the given parameters
     /// @dev each pool has a unique id that it is increased by 1 for each new pool. Also, a struct is created for each pool and asseciated to it throug a mapping called poolDataList
@@ -111,22 +118,27 @@ contract Taamin {
         uint8 _fee,
         uint256 _startDateFromDeployInSeconds,
         uint256 _endDateFromDeployInSeconds
-     ) public returns (DataTypes.PoolData memory){
+    ) public returns (DataTypes.PoolData memory) {
         priceFeed = AggregatorV3Interface(_priceFeed);
         taaminToken = IERC20(_tokenAddress);
         tokenAddress = _tokenAddress;
 
         // time inputs created and checck that start date is not later than future
 
-        uint256 startDate = block.timestamp + _startDateFromDeployInSeconds * 1 seconds;
-        uint256 endDate = block.timestamp + _endDateFromDeployInSeconds * 1 seconds;
-        if (endDate <= endDate) {
+        uint256 startDate = block.timestamp +
+            _startDateFromDeployInSeconds *
+            1 seconds;
+        uint256 endDate = block.timestamp +
+            _endDateFromDeployInSeconds *
+            1 seconds;
+        if (endDate <= startDate) {
             revert Errors.EndDateEarlierThanStartDate();
         }
         DataTypes.PoolData memory pool;
         // retrieving the token price from the oracle
         int256 tokenPrice = getLatestPrice();
-        int256 insuranceTreshold = tokenPrice - ((tokenPrice / 100) * _insuranceLossCoverage);
+        int256 insuranceTreshold = tokenPrice -
+            ((tokenPrice / 100) * _insuranceLossCoverage);
         pool.id = id;
         pool.tokenAddress = _tokenAddress;
         pool.priceLossCover = uint256(_insuranceLossCoverage);
@@ -136,7 +148,7 @@ contract Taamin {
         pool.startDate = startDate;
         pool.endDate = endDate;
 
-         // make the pool traceable by adding it in the mapping
+        // make the pool traceable by adding it in the mapping
         poolDataList[id] = pool;
 
         emit PoolUpdated(
@@ -150,10 +162,9 @@ contract Taamin {
             endDate
         );
 
-        id+=1;
+        id += 1;
         return pool;
     }
-
 
     /// @notice It allows the user to add new liquidity to the selected Tameen pool
     /// @dev the function transfers the amount of token to the pool and updates the pool data. this requires a separate erc20 approve to allow this contract to spend the token in the name of the user
@@ -161,20 +172,27 @@ contract Taamin {
     /// @param _amount the amount of token to add to the Tameen pool
     /// @return the liquidity amount supplied to the Tameen pool
 
-    function supplyPool(uint16 _id, uint256 _amount) public existPool(_id) returns (uint256){
-
-        if(block.timestamp >= poolDataList[_id].startDate){
+    function supplyPool(uint16 _id, uint256 _amount)
+        public
+        existPool(_id)
+        returns (uint256)
+    {
+        if (block.timestamp >= poolDataList[_id].startDate) {
             revert Errors.InsuranceInActivePeriod();
         }
 
         DataTypes.PoolLiquiditySupply memory poolSupply;
 
-        //transfering insured token to the contract and tvl update 
-        bool success = taaminToken.transferFrom(msg.sender, address(this), _amount);
+        //transfering insured token to the contract and tvl update
+        bool success = taaminToken.transferFrom(
+            msg.sender,
+            address(this),
+            _amount
+        );
 
-        if(success){
+        if (success) {
             poolDataList[id].totalLiquidity += _amount;
-        }else {
+        } else {
             revert Errors.TransferFailed();
         }
 
@@ -195,7 +213,7 @@ contract Taamin {
             poolDataList[_id].endDate
         );
 
-        return (poolDataList[_id].totalLiquidity);        
+        return (poolDataList[_id].totalLiquidity);
     }
 
     /// @notice It allows the Tameen provider to withdraw liquidity at the end of the Tameen validity period
@@ -203,7 +221,7 @@ contract Taamin {
 
     function withdrawPool(uint16 _id) public existPool(_id) {
         if (
-            liquiditySupplyList[_id][msg.sender].liquidityProvider != msg.sender 
+            liquiditySupplyList[_id][msg.sender].liquidityProvider != msg.sender
         ) {
             revert Errors.RequesterUnauthorized();
         }
@@ -216,9 +234,14 @@ contract Taamin {
             revert Errors.LiquidtyAlreadyWithdrawn();
         }
 
-        uint256 withdrawnAmount = liquiditySupplyList[_id][msg.sender].liquidityAdded;
+        uint256 withdrawnAmount = liquiditySupplyList[_id][msg.sender]
+            .liquidityAdded;
 
-        bool success = taaminToken.transferFrom(address(this), msg.sender, withdrawnAmount);
+        bool success = taaminToken.transferFrom(
+            address(this),
+            msg.sender,
+            withdrawnAmount
+        );
 
         if (success) {
             poolDataList[_id].totalLiquidity -= withdrawnAmount;
@@ -241,13 +264,15 @@ contract Taamin {
         );
     }
 
-     /// @notice It allows the user to request a Tameen from one of the existing Tameen pools
+    /// @notice It allows the user to request a Tameen from one of the existing Tameen pools
     /// @dev there is one check in the function to validate that the user has the balance of the token to cover the Tameen. This is done to avoid users misusing the Tameen contract and requesting an Tameen for an amount they don't have. However, this check is only at the moment of the request. If the user withdraws the Tameen before the end of the validity period, the check is not performed. It is a security gap
     /// @param _id the id of the pool to request an Tameen
     /// @param _amount the amount of token to request an Tameen for
 
-    function requestInsurance(uint16 _id, uint256 _amount) public existPool(_id) {
-
+    function requestInsurance(uint16 _id, uint256 _amount)
+        public
+        existPool(_id)
+    {
         uint256 totalLiquidity = poolDataList[_id].totalLiquidity;
 
         if (block.timestamp <= poolDataList[_id].endDate) {
@@ -259,17 +284,17 @@ contract Taamin {
             revert Errors.NotEnoughTokenBalance();
         }
 
-        if(insuranceRequests[_id][msg.sender].liquidtyToInsure != 0 ){
+        if (insuranceRequests[_id][msg.sender].liquidtyToInsure != 0) {
             revert Errors.InsuranceAlreadyRequested();
         }
 
         DataTypes.InsuranceRequest memory insuranceRequest;
 
-        // calcualting fee and reimbursement amount 
+        // calcualting fee and reimbursement amount
 
         uint256 feeAmount = getUserFee(_id, _amount);
         uint256 reimbursementAmount = getReimbursement(_id, _amount);
-        if(reimbursementAmount > totalLiquidity){
+        if (reimbursementAmount > totalLiquidity) {
             revert Errors.NotEnoughInsuranceLiquidity();
         }
 
@@ -282,7 +307,7 @@ contract Taamin {
         if (!success) {
             revert Errors.TransferFailed();
         }
-        
+
         insuranceRequest.id = _id;
         insuranceRequest.insuranceRequester = msg.sender;
         insuranceRequest.liquidtyToInsure = _amount;
@@ -297,7 +322,6 @@ contract Taamin {
             _amount,
             feeAmount
         );
-
     }
 
     /// @notice It allows the Tameen requester to ask and then receive the reimbursement of the Tameen when the criteria are met
@@ -305,10 +329,10 @@ contract Taamin {
     /// @param _id the id of the pool to request for reimbursement
 
     function requestReimbursement(uint16 _id) public existPool(_id) {
-        if ( 
+        if (
             block.timestamp <= poolDataList[_id].startDate ||
             block.timestamp > poolDataList[_id].endDate
-        ){
+        ) {
             revert Errors.InsuranceInActivePeriod();
         }
 
@@ -317,8 +341,8 @@ contract Taamin {
         ) {
             revert Errors.RequesterUnauthorized();
         }
-        
-        if(insuranceRequests[_id][msg.sender].reimbursementReceived == true){
+
+        if (insuranceRequests[_id][msg.sender].reimbursementReceived == true) {
             revert Errors.ReimburesementAlreadyReceived();
         }
 
@@ -327,7 +351,8 @@ contract Taamin {
             revert Errors.ReimburesementRequirementNotMet();
         }
 
-        uint256 reimbursementAmount = insuranceRequests[_id][msg.sender].reimbursementAmount;
+        uint256 reimbursementAmount = insuranceRequests[_id][msg.sender]
+            .reimbursementAmount;
         bool success = taaminToken.transferFrom(
             address(this),
             msg.sender,
@@ -340,7 +365,5 @@ contract Taamin {
         } else {
             revert Errors.TransferFailed();
         }
-
     }
 }
-

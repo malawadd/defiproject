@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NoWalletDashboard } from "./NoWalletDashboard";
 import { TabButtonContainer } from "./TabButtonContainer";
+import { WalletDashboard } from "./WalletDashboard";
 
 export const TabSelector = ({ walletConnected, account }) => {
   const [selected, setSelected] = useState("Dashboard");
@@ -11,7 +12,7 @@ export const TabSelector = ({ walletConnected, account }) => {
         return !walletConnected ? (
           <NoWalletDashboard />
         ) : (
-         <p> wallet </p>
+            <WalletDashboard account={account} />
         );
     }
   };
