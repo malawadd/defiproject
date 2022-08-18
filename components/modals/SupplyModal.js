@@ -11,10 +11,9 @@ const web3 = createAlchemyWeb3(alchemyKey);
 const TaaminContractAddress = Taamin.address;
 
 export const SupplyModal = ({ item, pool, show, onClose, account }) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  const [amount, setAmount] = useState(0);
-  const [fee, setFee] = useState(0);
-  const [buttonText, setButtonText] = useState(true);
+    const [isBrowser, setIsBrowser] = useState(false);
+    const [amount, setAmount] = useState(0);
+    const [buttonText, setButtonText] = useState(true);
 
   const taaminContractInstance = new web3.eth.Contract(Taamin.abi, TaaminContractAddress);
   const erc20ContractInstance = new web3.eth.Contract(ERC20.abi, pool?.tokenAddress);
@@ -26,6 +25,8 @@ export const SupplyModal = ({ item, pool, show, onClose, account }) => {
         data: erc20ContractInstance.methods
         .approve(TaaminContractAddress, ethers.utils.parseEther(amount))
         .encodeABI(),
+        maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
     }
 
 
@@ -35,12 +36,14 @@ export const SupplyModal = ({ item, pool, show, onClose, account }) => {
         data: taaminContractInstance.methods
         .supplyPool(pool.poolId, ethers.utils.parseEther(amount))
         .encodeABI(),
+        maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
     }
 
     try {
         setButtonText(false);
         await web3.eth.sendTransaction(approveTokenTransactionParams);
-        console.log(done)
+        console.log("done");
         await web3.eth.sendTransaction(supplyInsuranceTransactionParams);
         setButtonText(true);
       } catch (err) {

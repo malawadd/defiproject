@@ -43,7 +43,9 @@ export const Pool = ({ account }) => {
     console.log(lossCover)
     console.log(startDate)
     console.log(endDate)
-    console.log(fee)
+    console.log(amount)
+    console.log(ethers.utils.parseEther(amount))
+    console.log(id)
     //Step 1: Call function to init pool
     const initInsuranceTransactionParams = {
        
@@ -55,29 +57,43 @@ export const Pool = ({ account }) => {
           lossCover,
           fee,
           startDate,
-          endDate
+          endDate,
+      
         ).encodeABI(),
+        maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
 
         
     };
+    
     //step 2 : Call the ERC20 contract to approve the transfer of tokens
     const approveTokenTransactionParams = {
       from: account,
       to: selectedToken.contractAddress,
       data: erc20ContractInstance.methods.approve(TaaminContractAddress, ethers.utils.parseEther(amount)).encodeABI(),
+      maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
     };
+    
     //step 3 : Call the Taamin contract to supply the insurance
     const supplyInsuranceTransactionParams = {
       from: account,
       to: TaaminContractAddress,
-      data: taaminContractInstance.methods.supplyPool(id, ethers.utils.parseEther(amount)).encodeABI(),
+      data: taaminContractInstance.methods
+      .supplyPool(id, ethers.utils.parseEther(amount))
+      .encodeABI(),
+      maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
     };
 
     try {
       setButtonText(false);
       await web3.eth.sendTransaction(initInsuranceTransactionParams);
+      console.log("done init")
       await web3.eth.sendTransaction(approveTokenTransactionParams);
+      console.log("done approve")
       await web3.eth.sendTransaction(supplyInsuranceTransactionParams);
+      console.log("done supply")
       setButtonText(true);
       toast.success("You created a new Taamin pool", {
         position: "top-right",

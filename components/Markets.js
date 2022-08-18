@@ -98,52 +98,53 @@ export const Markets = ({ account }) => {
       </div>
       {poolsLoading && <div>...loading</div>}
       <div className={s.dataContainer}>
-        {validPools?.map((item, index) => (
-          <div key={index} className={s.tableRow}>
-            <div className={s.assetData}>
-              <Image
-                src={retrieveTokenData(item.tokenAddress).logo}
-                width={30}
-                height={30}
-              />
-            </div>
-            <p className={s.priceLossData}>
-              {`${calculateLossPercentage(
-                item.tresholdPrice,
-                item.basePrice
-              )} % (< $${(item.tresholdPrice / 10 ** 8).toFixed(4)})`}
-            </p>
-            <p className={s.feeData}>{item.feePercentage} %</p>
-            <div className={s.validityDataData}>
-              <p>{retrieveValidityPeriod(item.startDate, item.endDate)}</p>
-            </div>
+      {validPools?.map((item, index) => (
+            <div key={index} className={s.tableRow}>
+              <div className={s.assetData}>
+                <Image
+                  src={retrieveTokenData(item.tokenAddress).logo}
+                  width={30}
+                  height={30}
+                  alt="token logo"
+                />
+              </div>
+              <p className={s.priceLossData}>
+                {`${calculateLossPercentage(
+                  item.tresholdPrice,
+                  item.basePrice
+                )} % (< $${(item.tresholdPrice / 10 ** 8).toFixed(4)})`}
+              </p>
+              <p className={s.feeData}>{item.feePercentage} %</p>
+              <div className={s.validityDataData}>
+                <p>{retrieveValidityPeriod(item.startDate, item.endDate)}</p>
+              </div>
 
-            <div className={s.dataButtonContainer}>
-              <button
-                onClick={() =>
-                  handleSupplyModal(
-                    retrieveTokenData(item.tokenAddress),
-                    item
-                  )
-                }
-                className={s.dataButton}
-              >
-                Supply
-              </button>
-              <button
-                onClick={() =>
-                  handleRequestModal(
-                    retrieveTokenData(item.tokenAddress),
-                    item
-                  )
-                }
-                className={s.dataButton}
-              >
-                Request
-              </button>
+              <div className={s.dataButtonContainer}>
+                <button
+                  onClick={() =>
+                    handleSupplyModal(
+                      retrieveTokenData(item.tokenAddress),
+                      item
+                    )
+                  }
+                  className={s.dataButton}
+                >
+                  Supply
+                </button>
+                <button
+                  onClick={() =>
+                    handleRequestModal(
+                      retrieveTokenData(item.tokenAddress),
+                      item
+                    )
+                  }
+                  className={s.dataButton}
+                >
+                  Request
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
     <SupplyModal

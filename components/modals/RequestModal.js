@@ -25,6 +25,8 @@ export const RequestModal = ({ item, pool, show, onClose, account }) => {
       from: account,
       to: pool?.tokenAddress,
       data: erc20ContractInstance.methods.approve(TaaminContractAddress, ethers.utils.parseEther(amount)).encodeABI(),
+      maxFeePerGas: 35000000000,
+        maxPriorityFeePerGas: 35000000000,
     };
 
     const transactionParams = {

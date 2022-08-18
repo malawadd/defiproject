@@ -42,15 +42,17 @@ contract Taamin {
         uint256 fee
     );
 
+    
+
+    constructor() {
+        id = 0;
+    }
+
     modifier existPool(uint16 _id) {
         if (_id > id) {
             revert Errors.PoolIdNotExist();
         }
         _;
-    }
-
-    constructor() {
-        id = 0;
     }
 
     /// @notice retrives the lates price from price feed
@@ -84,6 +86,10 @@ contract Taamin {
         uint256 totalLiquidity = poolDataList[_id].totalLiquidity;
         uint16 fee = poolDataList[_id].fee;
         uint256 f = (totalLiquidity * uint256(fee)) / 100;
+
+        // userFee = (amountToInsure / TVL) * max fee
+        uint256 userFee = (_amount * f) / totalLiquidity;
+        return userFee;
     }
 
     /// @notice Calculate the requested amount of reimbursement to be paid by user when the Tameen criterias are met
@@ -134,6 +140,7 @@ contract Taamin {
         if (endDate <= startDate) {
             revert Errors.EndDateEarlierThanStartDate();
         }
+
         DataTypes.PoolData memory pool;
         // retrieving the token price from the oracle
         int256 tokenPrice = getLatestPrice();
@@ -177,7 +184,7 @@ contract Taamin {
         existPool(_id)
         returns (uint256)
     {
-        if (block.timestamp >= poolDataList[_id].startDate) {
+         if (block.timestamp >= poolDataList[_id].startDate) {
             revert Errors.InsuranceInActivePeriod();
         }
 
@@ -191,7 +198,7 @@ contract Taamin {
         );
 
         if (success) {
-            poolDataList[id].totalLiquidity += _amount;
+            poolDataList[_id].totalLiquidity += _amount;
         } else {
             revert Errors.TransferFailed();
         }
@@ -234,17 +241,17 @@ contract Taamin {
             revert Errors.LiquidtyAlreadyWithdrawn();
         }
 
-        uint256 withdrawnAmount = liquiditySupplyList[_id][msg.sender]
+        uint256 withdrawAmount = liquiditySupplyList[_id][msg.sender]
             .liquidityAdded;
 
         bool success = taaminToken.transferFrom(
             address(this),
             msg.sender,
-            withdrawnAmount
+            withdrawAmount
         );
 
         if (success) {
-            poolDataList[_id].totalLiquidity -= withdrawnAmount;
+            poolDataList[_id].totalLiquidity -= withdrawAmount;
         } else {
             revert Errors.TransferFailed();
         }
@@ -275,12 +282,12 @@ contract Taamin {
     {
         uint256 totalLiquidity = poolDataList[_id].totalLiquidity;
 
-        if (block.timestamp <= poolDataList[_id].endDate) {
+        if (block.timestamp >= poolDataList[_id].startDate) {
             revert Errors.InsuranceInActivePeriod();
         }
 
-        uint256 tokenbalance = taaminToken.balanceOf(msg.sender);
-        if (tokenbalance < _amount) {
+        uint256 tokenBalance = taaminToken.balanceOf(msg.sender);
+        if (tokenBalance < _amount) {
             revert Errors.NotEnoughTokenBalance();
         }
 
@@ -290,8 +297,7 @@ contract Taamin {
 
         DataTypes.InsuranceRequest memory insuranceRequest;
 
-        // calcualting fee and reimbursement amount
-
+        // calculating the fee and reimbursement amount
         uint256 feeAmount = getUserFee(_id, _amount);
         uint256 reimbursementAmount = getReimbursement(_id, _amount);
         if (reimbursementAmount > totalLiquidity) {
@@ -313,6 +319,7 @@ contract Taamin {
         insuranceRequest.liquidtyToInsure = _amount;
         insuranceRequest.reimbursementAmount = reimbursementAmount;
         insuranceRequest.fee = feeAmount;
+
         insuranceRequests[_id][msg.sender] = insuranceRequest;
 
         emit TaaminRequestCreated(
