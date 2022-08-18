@@ -3,6 +3,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import { useRetrieveTokenData } from "../hooks/useRetrieveTokenData";
+import { RequestModal } from "./modals/RequestModal";
+import { SupplyModal } from "./modals/SupplyModal";
 
 const GET_OPEN_POOLS = gql`
   query ($state: String!, $orderBy: BigInt!, $orderDirection: String!) {
@@ -144,6 +146,20 @@ export const Markets = ({ account }) => {
         ))}
       </div>
     </div>
+    <SupplyModal
+        onClose={() => setShowSupplyModal(false)}
+        show={showSupplyModal}
+        item={modalData}
+        pool={modalPoolData}
+        account={account}
+      />
+    <RequestModal
+        onClose={() => setShowRequestModal(false)}
+        show={showRequestModal}
+        item={modalData}
+        pool={modalPoolData}
+        account={account}
+      />
     </div>
   );
 };
