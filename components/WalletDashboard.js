@@ -50,7 +50,7 @@ export const WalletDashboard = ({ account }) => {
         }
     });
 
-    const pools = poolsData?.poolsData.insuranceRequestEntities;
+    const pools = poolsData?.insuranceRequestEntities;
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const retrieveTokenData = (tokenAddress) => useRetrieveTokenData(tokenAddress);
