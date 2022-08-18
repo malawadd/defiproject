@@ -2,15 +2,20 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
+};
 
 module.exports = {
   nextConfig,
-env: {
-  NEXT_PUBLIC_ALCHEMY_KEY: process.env.NEXT_PUBLIC_ALCHEMY_KEY,
-},
-experimental: {
+  env: {
+    NEXT_PUBLIC_ALCHEMY_KEY: process.env.NEXT_PUBLIC_ALCHEMY_KEY,
+  },
   images: {
-      unoptimized: true
-  }}
-}
+    loader: "akamai",
+    path: "",
+  },
+  experimental: {
+    images: {
+      unoptimized: true,
+    },
+  },
+};
