@@ -44,7 +44,7 @@ export const DashboardDetailsModal = ({ show, onClose, item, token }) => {
 
   useEffect(() => {
     if (item){
-        setPools(item.poolId);
+      setPoolId(item.poolId);
     }
   }, [item]);
 
@@ -74,7 +74,7 @@ export const DashboardDetailsModal = ({ show, onClose, item, token }) => {
 
     const calculateLossPercentage = (tresholdPrice, basePrice) => {
         const difference = basePrice - tresholdPrice;
-        return ((difference * 100) / basePrice.toFixed(2))
+        return ((difference * 100) / basePrice).toFixed(2)
     };
 
     const handleCloseClick = (e) => {
@@ -85,7 +85,8 @@ export const DashboardDetailsModal = ({ show, onClose, item, token }) => {
     const modalContent = show ? (
         <div className={s.modalOverlay}>
             <div className={s.modal}>
-                <div className={s.modalHeader}></div>
+                <div className={s.modalHeader}>
+                <div />
                 <h3 className={s.modalTitle}>Taamin Details</h3>
                 <FaTimesCircle className={s.modalIcon} onClick={handleCloseClick} />
             </div>
@@ -123,6 +124,7 @@ export const DashboardDetailsModal = ({ show, onClose, item, token }) => {
                     </p>                    
                 </div>
             </div>
+        </div>
         </div>
     ) : null;
     if (isBrowser) {
