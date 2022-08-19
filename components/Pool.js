@@ -45,6 +45,7 @@ export const Pool = ({ account }) => {
     console.log(endDate)
     console.log(amount)
     console.log(ethers.utils.parseEther(amount))
+    console.log(ethers.utils.parseEther(amount))
     console.log(id)
     //Step 1: Call function to init pool
     const initInsuranceTransactionParams = {
@@ -182,9 +183,9 @@ export const Pool = ({ account }) => {
                 borderRadius: 8,
                 colors: {
                   ...theme.colors,
-                  primary25: "#03cea4",
+                  primary25: "#d39d00",
                   primary: "#2b2c3b",
-                  neutral0: "#2b2c3b",
+                  neutral0: "#c36e1b",
                   neutral80: "#d6edff",
                 },
               })}
@@ -256,7 +257,7 @@ export const Pool = ({ account }) => {
                 selected={range}
                 footer={footer}
                 onSelect={setRange}
-                styles={{ day: { color: "#03cea4" } }}
+                styles={{ day: { color: "#376d43" } }}
                 modifiersClassNames={{
                   selected: s.selected,
                   day: s.cell,

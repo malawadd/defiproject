@@ -6,7 +6,7 @@ export const Header = ({ walletConnected, account, connectWallet }) => {
   if (!walletConnected)
     return (
       <div className={s.container}>
-        {/* <Image className={s.logo} src={Logo} height={90} width={81} /> */}
+         <p className={s.text } > Taamin</p>
 
         <Button
           handleClick={connectWallet}
@@ -18,7 +18,7 @@ export const Header = ({ walletConnected, account, connectWallet }) => {
     )
     return (
       <div className={s.container}>
-        <p className={s.text} > Taamin</p>
+        <p className={s.text } > Taamin</p>
         <div className={s.headingItem}>
           
           <p className={s.text}>
