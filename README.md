@@ -1,34 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+  
+<h1 align="center">
+  <br>
+  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiysE9FrLov7D_4j-jJw44NoY-qq8-FJPcmPyFrb-xuEDb9dvNYktz48GHHm_K9P3X1-fHeqKwktUDZ05U2WCWTZISeNn8FslESqGq_8guUaJZ-gtIOlMXb1tHXqzZuG1OEHN8cPqyIFVrjX5Dvm5iz8NZmpCFbc_NV9vnhn3JbURtfWKZhGABhsNCk/s500/Taamin.png" width="300"></a>
+  <br>
+  Taamin
+  <br>
+</h1>
 
-First, run the development server:
+<h4 align="center">Another token insurance protocol </h4>
+
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#how-it-works">How it works</a> •
+  <a href="#credits">Credits</a> •
+  <a href="#license">License</a>
+</p>
+
+![screenshot](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjc6aYvXCTagsKzoNvhQtHl6JXEOAUCCJ5SzPlwewNv1CPjmUXoyzIQYbV3D6cUPLMZPPqfjvxzahsxNyT4wT_ds-ZGIEavyoEsvlmedzHZlrC7FjFYTgELAUGqrWhR-rENc87Ak0oiPCFaZt2yAaCyOuG22vSI94LsVabklUZi-B2g8LCv-YDnRt1v/s1000/main%20copy.png)
+
+## Key Features
+
+* Taamin is  a general permissionless insurance protocol
+*  Protects from ERC20 token price loss.
+* Powered by chainlink oracle price feed, Supports all token with price feed.
+
+## How it works
+
+- **Taamin provider:**  creates and supply liquidity to an insurance pool
+- **Taamin Requester:**  apply for the insurance in exchange for a fee to protect investment
+- **smart contract :** Automate the entire process and validate taamin criteria 
+- **At the end:** Provider gets fee , requester gets reimbursement
+
+
+
+
+
+## How To Use
+
+To clone and run this project , you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
-npm run dev
-# or
-yarn dev
+# Clone this repository
+$ git https://github.com/malawadd/defiproject.git
+
+# Go into the repository
+$ cd defiproject
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm run dev 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) or use `node` from the command prompt.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Credits
 
-## Learn More
+Taamin uses the following open source packages:
 
-To learn more about Next.js, take a look at the following resources:
+- [Chainlink PriceFeed](https://docs.chain.link/docs/using-chainlink-reference-contracts/) the quickest way to connect your smart contracts to the real-world
+- [The graph](https://thegraph.com/en/) The Graph is an indexing protocol for querying networks like Ethereum and IPFS.
+- [nextjs](https://nextjs.org/)   the best developer experience with all the features you need for production
+- [ AlchemyWeb3.js](https://docs.alchemy.com/reference/use-alchemyweb3js) Alchemy Web3 is a wrapper around Web3.js, providing enhanced API methods, Effortless integration, Automatic Retries,  Upgraded WebSockets, and Seamless provider handling 
+- [chakra-ui](https://chakra-ui.com/) Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.
+- [The Ethers Project](https://github.com/ethers-io/ethers.js)  A complete Ethereum wallet implementation and utilities in JavaScript (and TypeScript)
+- [ Web3Modal](https://github.com/WalletConnect/web3modal) A single Web3 / Ethereum provider solution for all Wallets
+- [Apollo Client](https://www.apollographql.com/) The Apollo Supergraph Platform unifies GraphQL across your apps and services, unlocking faster delivery for your engineering teams.
+- [Sass](https://sass-lang.com/) the most mature, stable, and powerful professional grade CSS extension language in the world.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+MIT
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
