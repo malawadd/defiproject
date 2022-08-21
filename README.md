@@ -22,7 +22,7 @@
 
 ## Key Features
 
-* Taamin is  a general permissionless insurance protocol
+* Taamin is  a general permissionless insurance protocol.
 *  Protects from ERC20 token price loss.
 * Powered by chainlink oracle price feed, Supports all token with price feed.
 
