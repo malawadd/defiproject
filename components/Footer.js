@@ -10,9 +10,9 @@ export const Footer = () => {
             target="_blank"
             rel="noreferrer"
             className={s.footerLink}
-            href="https://buidlit.polygon.technology/"
+            href=" "
             >
-               Polygon BUIDL IT : Summer 2022 {"  "}
+                {"  "}
             </a>
             </p>
         </footer>
