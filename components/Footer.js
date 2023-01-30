@@ -10,8 +10,10 @@ export const Footer = () => {
             target="_blank"
             rel="noreferrer"
             className={s.footerLink}
+            href="https://web3-talents.io/defi-talents"
             href=" "
             >
+               DEFI TALENT COHORT 3 {"  "}
                 {"  "}
             </a>
             </p>
